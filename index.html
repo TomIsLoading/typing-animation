@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typewriter Effect</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        padding: 150px 75px;
+
+        background: #ebeef3;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 50px;
+      }
+
+      #typewriter {
+        color: #0072ef;
+        font-weight: bold;
+      }
+
+      #cursor {
+        color: #0072ef;
+        animation: blink 1s linear infinite;
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 100%;
+        }
+        50% {
+          opacity: 0%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      Hey, I'm Tom 👋<br />I like to <span id="typewriter"></span
+      ><span id="cursor">|</span>
+    </h1>
+    <script>
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      const phrases = ["code", "make beats", "hug puppies"];
+      const el = document.getElementById("typewriter");
+
+      let sleepTime = 100;
+
+      let curPhraseIndex = 0;
+
+      const writeLoop = async () => {
+        while (true) {
+          let curWord = phrases[curPhraseIndex];
+
+          for (let i = 0; i < curWord.length; i++) {
+            el.innerText = curWord.substring(0, i + 1);
+            await sleep(sleepTime);
+          }
+
+          await sleep(sleepTime * 10);
+
+          for (let i = curWord.length; i > 0; i--) {
+            el.innerText = curWord.substring(0, i - 1);
+            await sleep(sleepTime);
+          }
+
+          await sleep(sleepTime * 5);
+
+          if (curPhraseIndex === phrases.length - 1) {
+            curPhraseIndex = 0;
+          } else {
+            curPhraseIndex++;
+          }
+        }
+      };
+
+      writeLoop();
+    </script>
+  </body>
+</html>
